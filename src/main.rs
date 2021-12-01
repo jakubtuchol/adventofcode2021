@@ -1,10 +1,38 @@
+extern crate clap;
+
+use clap::{App, Arg};
 use std::fs::File;
-use std::io::{ prelude::*, BufReader, Error, ErrorKind };
+use std::io::{prelude::*, BufReader, Error, ErrorKind};
+use std::process::exit;
 
 mod day_one;
 
 fn main() {
-    run_day_one();
+    let available_days = vec![
+        run_day_one,
+    ];
+
+    let matches = App::new("Advent of Code 2021")
+        .version("0.1")
+        .author("jakub")
+        .arg(
+            Arg::new("days")
+                .short('d')
+                .value_name("DAYS")
+                .about("Enter a comma-separated list of days")
+                .takes_value(true)
+                .required(true)
+                .multiple_values(true),
+        )
+        .get_matches();
+
+    for day in matches.values_of_t::<usize>("days").unwrap().iter() {
+        let idx = day - 1;
+        if idx > available_days.len() {
+            exit(1);
+        }
+        available_days[idx]();
+    }
 }
 
 fn run_day_one() {
