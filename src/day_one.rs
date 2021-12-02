@@ -40,7 +40,7 @@ pub fn get_sliding_window_increases(depths: Vec<i32>) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use super::{ get_num_increases, get_sliding_window_increases };
+    use super::{get_num_increases, get_sliding_window_increases};
 
     #[test]
     fn test_num_increases() {
