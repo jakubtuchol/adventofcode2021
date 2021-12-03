@@ -12,11 +12,13 @@ const VERSION: &str = "0.1";
 
 mod day_one;
 mod day_two;
+mod day_three;
 
 fn main() {
     let available_days: Vec<fn()> = vec![
         run_day_one,
         run_day_two,
+        run_day_three,
     ];
 
     let matches = App::new(APP_NAME)
@@ -100,4 +102,21 @@ fn convert_line_to_direction(line: String) -> day_two::Command {
     let unit: i32 = caps["unit"].parse::<i32>().unwrap();
 
     return day_two::Command::new(direction, unit);
+}
+
+fn run_day_three() {
+    let day_three_file = match File::open("data/day_three.txt") {
+        Ok(f) => f,
+        Err(e) => panic!("failed to read day three file: {}", e),
+    };
+    let reader = BufReader::new(day_three_file);
+    let mut v: Vec<String> = vec![];
+    for line in reader.lines() {
+        v.push(line.unwrap().trim().to_string());
+    }
+
+    println!(
+        "Day one part one answer is {}",
+        day_three::get_gamma_epsilon_product(v.clone()),
+    );
 }
