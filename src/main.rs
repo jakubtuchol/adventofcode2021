@@ -119,4 +119,8 @@ fn run_day_three() {
         "Day one part one answer is {}",
         day_three::get_gamma_epsilon_product(v.clone()),
     );
+    println!(
+        "Day one part one answer is {}",
+        day_three::get_oxygen_co2_product(v.clone()),
+    );
 }
