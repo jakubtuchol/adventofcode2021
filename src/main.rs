@@ -134,7 +134,7 @@ fn run_day_four() {
     };
     let reader = BufReader::new(day_four_file);
     let mut lines = reader.lines();
-    let called_nums = match lines.next() {
+    let called_nums: Vec<i32> = match lines.next() {
         Some(s) => s.unwrap().split(",").map(|x| x.parse::<i32>().unwrap()).collect(),
         None => panic!("cannot read first line of day three file"),
     };
@@ -155,6 +155,11 @@ fn run_day_four() {
 
     println!(
         "Day four part one answer is {}",
-        day_four::final_score_sum_winning_board(boards, called_nums),
+        day_four::find_first_winning_board(boards.clone(), called_nums.clone()),
     );
+    println!(
+        "Day four part two answer is {}",
+        day_four::find_last_winning_board(boards, called_nums),
+    );
+
 }
