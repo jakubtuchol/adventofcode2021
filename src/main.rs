@@ -13,12 +13,14 @@ const VERSION: &str = "0.1";
 mod day_one;
 mod day_two;
 mod day_three;
+mod day_four;
 
 fn main() {
     let available_days: Vec<fn()> = vec![
         run_day_one,
         run_day_two,
         run_day_three,
+        run_day_four,
     ];
 
     let matches = App::new(APP_NAME)
@@ -116,11 +118,43 @@ fn run_day_three() {
     }
 
     println!(
-        "Day one part one answer is {}",
+        "Day three part one answer is {}",
         day_three::get_gamma_epsilon_product(v.clone()),
     );
     println!(
-        "Day one part one answer is {}",
+        "Day three part one answer is {}",
         day_three::get_oxygen_co2_product(v.clone()),
+    );
+}
+
+fn run_day_four() {
+    let day_four_file = match File::open("data/day_four.txt") {
+        Ok(f) => f,
+        Err(e) => panic!("failed to read day three file: {}", e)
+    };
+    let reader = BufReader::new(day_four_file);
+    let mut lines = reader.lines();
+    let called_nums = match lines.next() {
+        Some(s) => s.unwrap().split(",").map(|x| x.parse::<i32>().unwrap()).collect(),
+        None => panic!("cannot read first line of day three file"),
+    };
+    lines.next();
+
+    let mut boards: Vec<day_four::Board> = Vec::new();
+    let mut nums: Vec<Vec<i32>> = Vec::new();
+    for line in lines {
+        let cur_line = line.unwrap();
+        if cur_line.trim().is_empty() {
+            boards.push(day_four::Board::new(nums.clone()));
+            nums = Vec::new();
+        } else {
+            nums.push(cur_line.split_whitespace().map(|x| x.parse::<i32>().unwrap()).collect());
+        }
+    }
+    boards.push(day_four::Board::new(nums));
+
+    println!(
+        "Day four part one answer is {}",
+        day_four::final_score_sum_winning_board(boards, called_nums),
     );
 }
