@@ -1,3 +1,5 @@
+use std::fmt;
+
 pub const FORWARD: &str = "forward";
 pub const UP: &str = "up";
 pub const DOWN: &str = "down";
@@ -9,13 +11,14 @@ pub enum Direction {
     Up,
 }
 
-impl Direction {
-    pub fn to_string(&self) -> &str {
-        match self {
+impl fmt::Display for Direction {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s = match self {
             Direction::Forward => FORWARD,
             Direction::Down => DOWN,
             Direction::Up => UP,
-        }
+        };
+        write!(f, "{}", s)
     }
 }
 
@@ -29,13 +32,11 @@ impl Command {
     pub fn new(direction: Direction, unit: i32) -> Self {
         Self { direction, unit }
     }
+}
 
-    pub fn to_string(&self) -> String {
-        return format!(
-            "{} {}",
-            self.direction.to_string(),
-            self.unit,
-        );
+impl fmt::Display for Command {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} {}", self.direction, self.unit)
     }
 }
 
@@ -49,13 +50,13 @@ pub fn get_cmd_product(cmds: Vec<Command>) -> i32 {
         match cmd.direction {
             Direction::Forward => {
                 horizontal += unit;
-            },
+            }
             Direction::Down => {
                 depth += unit;
-            },
+            }
             Direction::Up => {
                 depth -= unit;
-            },
+            }
         }
     }
 
@@ -74,13 +75,13 @@ pub fn get_aim_product(cmds: Vec<Command>) -> i32 {
             Direction::Forward => {
                 horizontal += unit;
                 depth += aim * unit;
-            },
+            }
             Direction::Up => {
                 aim -= unit;
-            },
+            }
             Direction::Down => {
                 aim += unit;
-            },
+            }
         }
     }
 
@@ -89,7 +90,7 @@ pub fn get_aim_product(cmds: Vec<Command>) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use super::{Command, Direction, get_cmd_product, get_aim_product};
+    use super::{get_aim_product, get_cmd_product, Command, Direction};
 
     #[test]
     fn test_cmd_product() {
