@@ -10,10 +10,11 @@ use std::process::exit;
 const APP_NAME: &str = "Advent of Code 2021";
 const VERSION: &str = "0.1";
 
-mod day_one;
-mod day_two;
-mod day_three;
+mod day_five;
 mod day_four;
+mod day_one;
+mod day_three;
+mod day_two;
 
 fn main() {
     let available_days: Vec<fn()> = vec![
@@ -21,6 +22,7 @@ fn main() {
         run_day_two,
         run_day_three,
         run_day_four,
+        run_day_five,
     ];
 
     let matches = App::new(APP_NAME)
@@ -53,10 +55,13 @@ fn run_day_one() {
     let reader = BufReader::new(day_one_file);
     let mut v: Vec<i32> = vec![];
     for line in reader.lines() {
-        v.push(line.unwrap()
-            .trim()
-            .parse()
-            .map_err(|e| Error::new(ErrorKind::InvalidData, e)).unwrap());
+        v.push(
+            line.unwrap()
+                .trim()
+                .parse()
+                .map_err(|e| Error::new(ErrorKind::InvalidData, e))
+                .unwrap(),
+        );
     }
     println!(
         "Day one part one answer is {}",
@@ -66,7 +71,6 @@ fn run_day_one() {
         "Day one part two answer is {}",
         day_one::get_sliding_window_increases(v.clone()),
     );
-
 }
 
 fn run_day_two() {
@@ -130,12 +134,16 @@ fn run_day_three() {
 fn run_day_four() {
     let day_four_file = match File::open("data/day_four.txt") {
         Ok(f) => f,
-        Err(e) => panic!("failed to read day three file: {}", e)
+        Err(e) => panic!("failed to read day four file: {}", e),
     };
     let reader = BufReader::new(day_four_file);
     let mut lines = reader.lines();
     let called_nums: Vec<i32> = match lines.next() {
-        Some(s) => s.unwrap().split(",").map(|x| x.parse::<i32>().unwrap()).collect(),
+        Some(s) => s
+            .unwrap()
+            .split(",")
+            .map(|x| x.parse::<i32>().unwrap())
+            .collect(),
         None => panic!("cannot read first line of day three file"),
     };
     lines.next();
@@ -148,7 +156,12 @@ fn run_day_four() {
             boards.push(day_four::Board::new(nums.clone()));
             nums = Vec::new();
         } else {
-            nums.push(cur_line.split_whitespace().map(|x| x.parse::<i32>().unwrap()).collect());
+            nums.push(
+                cur_line
+                    .split_whitespace()
+                    .map(|x| x.parse::<i32>().unwrap())
+                    .collect(),
+            );
         }
     }
     boards.push(day_four::Board::new(nums));
@@ -161,5 +174,34 @@ fn run_day_four() {
         "Day four part two answer is {}",
         day_four::find_last_winning_board(boards, called_nums),
     );
+}
 
+fn run_day_five() {
+    let day_five_file = match File::open("data/day_five.txt") {
+        Ok(f) => f,
+        Err(e) => panic!("failed to read day five file: {}", e),
+    };
+    let reader = BufReader::new(day_five_file);
+    let mut points: Vec<((i32, i32), (i32, i32))> = Vec::new();
+
+    for line in reader.lines() {
+        let mut parsed_pts: Vec<(i32, i32)> = Vec::new();
+        for split_pt in line.unwrap().split(" -> ") {
+            let pt = split_pt
+                .split(",")
+                .map(|x| x.parse::<i32>().unwrap())
+                .collect::<Vec<i32>>();
+            parsed_pts.push((pt[0], pt[1]));
+        }
+        points.push((parsed_pts[0], parsed_pts[1]));
+    }
+
+    println!(
+        "Day five part one answer is {}",
+        day_five::get_straight_overlap(points.clone()),
+    );
+    println!(
+        "Day five part two answer is {}",
+        day_five::get_all_overlap(points),
+    );
 }
