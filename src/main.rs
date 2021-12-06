@@ -13,6 +13,7 @@ const VERSION: &str = "0.1";
 mod day_five;
 mod day_four;
 mod day_one;
+mod day_six;
 mod day_three;
 mod day_two;
 
@@ -23,6 +24,7 @@ fn main() {
         run_day_three,
         run_day_four,
         run_day_five,
+        run_day_six,
     ];
 
     let matches = App::new(APP_NAME)
@@ -30,6 +32,7 @@ fn main() {
         .arg(
             Arg::new("days")
                 .short('d')
+                .long("day")
                 .value_name("DAYS")
                 .about("Enter a comma-separated list of days")
                 .takes_value(true)
@@ -203,5 +206,31 @@ fn run_day_five() {
     println!(
         "Day five part two answer is {}",
         day_five::get_all_overlap(points),
+    );
+}
+
+fn run_day_six() {
+    let day_five_file = match File::open("data/day_six.txt") {
+        Ok(f) => f,
+        Err(e) => panic!("failed to read day six file: {}", e),
+    };
+
+    let reader = BufReader::new(day_five_file);
+    let nums: Vec<i64> = match reader.lines().next() {
+        Some(s) => s
+            .unwrap()
+            .split(",")
+            .map(|x| x.parse::<i64>().unwrap())
+            .collect(),
+        None => panic!("cannot read first line of day six file"),
+    };
+
+    println!(
+        "Day six part one answer is {}",
+        day_six::calculate_lanternfish(nums.clone(), 80),
+    );
+    println!(
+        "Day six part two answer is {}",
+        day_six::calculate_lanternfish(nums, 256),
     );
 }
