@@ -112,7 +112,7 @@ fn convert_line_to_direction(line: String) -> day_two::Command {
 
     let unit: i32 = caps["unit"].parse::<i32>().unwrap();
 
-    return day_two::Command::new(direction, unit);
+    day_two::Command::new(direction, unit)
 }
 
 fn run_day_three() {
@@ -146,7 +146,7 @@ fn run_day_four() {
     let called_nums: Vec<i32> = match lines.next() {
         Some(s) => s
             .unwrap()
-            .split(",")
+            .split(',')
             .map(|x| x.parse::<i32>().unwrap())
             .collect(),
         None => panic!("cannot read first line of day three file"),
@@ -193,7 +193,7 @@ fn run_day_five() {
         let mut parsed_pts: Vec<(i32, i32)> = Vec::new();
         for split_pt in line.unwrap().split(" -> ") {
             let pt = split_pt
-                .split(",")
+                .split(',')
                 .map(|x| x.parse::<i32>().unwrap())
                 .collect::<Vec<i32>>();
             parsed_pts.push((pt[0], pt[1]));
@@ -221,7 +221,7 @@ fn run_day_six() {
     let nums: Vec<i64> = match reader.lines().next() {
         Some(s) => s
             .unwrap()
-            .split(",")
+            .split(',')
             .map(|x| x.parse::<i64>().unwrap())
             .collect(),
         None => panic!("cannot read first line of day six file"),
@@ -247,7 +247,7 @@ fn run_day_seven() {
     let nums: Vec<i32> = match reader.lines().next() {
         Some(s) => s
             .unwrap()
-            .split(",")
+            .split(',')
             .map(|x| x.parse::<i32>().unwrap())
             .collect(),
         None => panic!("cannot read first line of day seven file"),

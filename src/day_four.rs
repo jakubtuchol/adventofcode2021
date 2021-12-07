@@ -31,8 +31,7 @@ impl Clone for Board {
 
 impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut output: Vec<String> = Vec::new();
-        output.push("Board {".to_string());
+        let mut output: Vec<String> = vec!["Board {".to_string()];
 
         for row in self.nums.iter() {
             output.push(
@@ -51,11 +50,7 @@ impl Board {
     pub fn new(nums: Vec<Vec<i32>>) -> Board {
         let mut selected = Vec::new();
         for _ in 0..nums.len() {
-            let mut row: Vec<bool> = Vec::new();
-            for _ in 0..nums[0].len() {
-                row.push(false);
-            }
-            selected.push(row);
+            selected.push(vec![false; nums[0].len()]);
         }
 
         Self { nums, selected }
@@ -133,7 +128,7 @@ pub fn find_last_winning_board(boards: Vec<Board>, nums: Vec<i32>) -> i32 {
                 last_win = Some(marked_board.clone());
             }
         }
-        if marked_boards.len() == 0 {
+        if marked_boards.is_empty() {
             if let Some(last_board) = last_win.take() {
                 return last_board.get_unmarked_sum() * *num;
             }

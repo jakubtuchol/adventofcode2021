@@ -3,11 +3,11 @@ use std::collections::HashMap;
 pub fn constant_gas(pos: Vec<i32>) -> i32 {
     let mut seen_pos: HashMap<i32, i32> = HashMap::new();
 
-    let min_pos = match pos.clone().iter().min() {
+    let min_pos = match pos.iter().min() {
         Some(&x) => x,
         None => panic!("no min for vector"),
     };
-    let max_pos = match pos.clone().iter().max() {
+    let max_pos = match pos.iter().max() {
         Some(&x) => x,
         None => panic!("no max for vector"),
     };
@@ -27,11 +27,11 @@ pub fn constant_gas(pos: Vec<i32>) -> i32 {
 pub fn variable_gas(pos: Vec<i32>) -> i32 {
     let mut seen_pos: HashMap<i32, i32> = HashMap::new();
 
-    let min_pos = match pos.clone().iter().min() {
+    let min_pos = match pos.iter().min() {
         Some(&x) => x,
         None => panic!("no min for vector"),
     };
-    let max_pos = match pos.clone().iter().max() {
+    let max_pos = match pos.iter().max() {
         Some(&x) => x,
         None => panic!("no max for vector"),
     };

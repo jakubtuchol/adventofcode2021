@@ -5,16 +5,14 @@ pub fn get_num_increases(depths: Vec<i32>) -> i32 {
     let mut increases: i32 = 0;
 
     for (idx, elt) in depths.iter().enumerate() {
-        if idx != 0 {
-            if *elt > last_depth {
-                increases += 1;
-            }
+        if idx != 0 && *elt > last_depth {
+            increases += 1;
         }
 
         last_depth = *elt;
     }
 
-    return increases;
+    increases
 }
 
 pub fn get_sliding_window_increases(depths: Vec<i32>) -> i32 {
@@ -35,7 +33,7 @@ pub fn get_sliding_window_increases(depths: Vec<i32>) -> i32 {
         window.push_back(*elt);
     }
 
-    return increases;
+    increases
 }
 
 #[cfg(test)]
@@ -44,18 +42,14 @@ mod tests {
 
     #[test]
     fn test_num_increases() {
-        let depths = vec![
-            199, 200, 208, 210, 200, 207, 240, 269, 260, 263,
-        ];
+        let depths = vec![199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
 
         assert_eq!(7, get_num_increases(depths));
     }
 
     #[test]
     fn test_sliding_window_increases() {
-        let depths = vec![
-            199, 200, 208, 210, 200, 207, 240, 269, 260, 263,
-        ];
+        let depths = vec![199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
 
         assert_eq!(5, get_sliding_window_increases(depths));
     }

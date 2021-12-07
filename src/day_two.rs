@@ -60,7 +60,7 @@ pub fn get_cmd_product(cmds: Vec<Command>) -> i32 {
         }
     }
 
-    return horizontal * depth;
+    horizontal * depth
 }
 
 pub fn get_aim_product(cmds: Vec<Command>) -> i32 {
@@ -85,7 +85,7 @@ pub fn get_aim_product(cmds: Vec<Command>) -> i32 {
         }
     }
 
-    return depth * horizontal;
+    depth * horizontal
 }
 
 #[cfg(test)]

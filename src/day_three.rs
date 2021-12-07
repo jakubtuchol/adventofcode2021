@@ -1,5 +1,5 @@
 pub fn get_gamma_epsilon_product(bin_nums: Vec<String>) -> i32 {
-    if bin_nums.len() == 0 {
+    if bin_nums.is_empty() {
         return 0;
     }
 
@@ -28,12 +28,11 @@ pub fn get_gamma_epsilon_product(bin_nums: Vec<String>) -> i32 {
         }
         base *= 2;
     }
-    
-    return gamma * epsilon;
+    gamma * epsilon
 }
 
 pub fn get_oxygen_co2_product(nums: Vec<String>) -> i32 {
-    if nums.len() == 0 {
+    if nums.is_empty() {
         return 0;
     }
 
@@ -58,7 +57,6 @@ pub fn get_oxygen_co2_product(nums: Vec<String>) -> i32 {
             } else {
                 least_common -= 1;
             }
-
         }
 
         let most_common_char: char;
@@ -76,10 +74,16 @@ pub fn get_oxygen_co2_product(nums: Vec<String>) -> i32 {
         }
 
         if most_common_filtered.len() > 1 {
-            most_common_filtered = most_common_filtered.into_iter().filter(|x| x.chars().nth(idx).unwrap() == most_common_char).collect();
+            most_common_filtered = most_common_filtered
+                .into_iter()
+                .filter(|x| x.chars().nth(idx).unwrap() == most_common_char)
+                .collect();
         }
         if least_common_filtered.len() > 1 {
-            least_common_filtered = least_common_filtered.into_iter().filter(|x| x.chars().nth(idx).unwrap() == least_common_char).collect();
+            least_common_filtered = least_common_filtered
+                .into_iter()
+                .filter(|x| x.chars().nth(idx).unwrap() == least_common_char)
+                .collect();
         }
     }
 
@@ -112,7 +116,7 @@ pub fn get_oxygen_co2_product(nums: Vec<String>) -> i32 {
         base *= 2;
     }
 
-    return oxygen_rating * carbon_rating;
+    oxygen_rating * carbon_rating
 }
 
 #[cfg(test)]

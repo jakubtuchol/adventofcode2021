@@ -19,22 +19,18 @@ pub fn get_line(start: (i32, i32), end: (i32, i32)) -> Vec<(i32, i32)> {
 
     let x_range = if x_size == 0 {
         vec![start_x; y_size + 1]
+    } else if start_x > end_x {
+        (end_x..=start_x).rev().collect()
     } else {
-        if start_x > end_x {
-            (end_x..=start_x).rev().collect()
-        } else {
-            (start_x..=end_x).collect()
-        }
+        (start_x..=end_x).collect()
     };
 
     let y_range = if y_size == 0 {
         vec![start_y; x_size + 1]
+    } else if start_y > end_y {
+        (end_y..=start_y).rev().collect()
     } else {
-        if start_y > end_y {
-            (end_y..=start_y).rev().collect()
-        } else {
-            (start_y..=end_y).collect()
-        }
+        (start_y..=end_y).collect()
     };
 
     x_range
