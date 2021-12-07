@@ -13,6 +13,7 @@ const VERSION: &str = "0.1";
 mod day_five;
 mod day_four;
 mod day_one;
+mod day_seven;
 mod day_six;
 mod day_three;
 mod day_two;
@@ -25,6 +26,7 @@ fn main() {
         run_day_four,
         run_day_five,
         run_day_six,
+        run_day_seven,
     ];
 
     let matches = App::new(APP_NAME)
@@ -210,12 +212,12 @@ fn run_day_five() {
 }
 
 fn run_day_six() {
-    let day_five_file = match File::open("data/day_six.txt") {
+    let day_six_file = match File::open("data/day_six.txt") {
         Ok(f) => f,
         Err(e) => panic!("failed to read day six file: {}", e),
     };
 
-    let reader = BufReader::new(day_five_file);
+    let reader = BufReader::new(day_six_file);
     let nums: Vec<i64> = match reader.lines().next() {
         Some(s) => s
             .unwrap()
@@ -232,5 +234,31 @@ fn run_day_six() {
     println!(
         "Day six part two answer is {}",
         day_six::calculate_lanternfish(nums, 256),
+    );
+}
+
+fn run_day_seven() {
+    let day_seven_file = match File::open("data/day_seven.txt") {
+        Ok(f) => f,
+        Err(e) => panic!("failed to read day seven file: {}", e),
+    };
+
+    let reader = BufReader::new(day_seven_file);
+    let nums: Vec<i32> = match reader.lines().next() {
+        Some(s) => s
+            .unwrap()
+            .split(",")
+            .map(|x| x.parse::<i32>().unwrap())
+            .collect(),
+        None => panic!("cannot read first line of day seven file"),
+    };
+
+    println!(
+        "Day seven part one answer is {}",
+        day_seven::constant_gas(nums.clone()),
+    );
+    println!(
+        "Day seven part two answer is {}",
+        day_seven::variable_gas(nums),
     );
 }
