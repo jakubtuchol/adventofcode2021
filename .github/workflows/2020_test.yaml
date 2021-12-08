@@ -5,6 +5,10 @@ on:
     branches:
     - master
 
+defaults:
+  run:
+    working-directory: 2020
+
 jobs:
   build-and-test:
     name: build and test
@@ -20,14 +24,7 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: run 2020 tests
+      - name: run tests
         uses: actions-rs/cargo@v1
         with:
           command: test
-        working-directory: 2020
-
-      - name: run 2021 tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-        working-directory: 2021
