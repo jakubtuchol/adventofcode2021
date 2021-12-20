@@ -12,6 +12,7 @@ const VERSION: &str = "0.1";
 
 mod day_five;
 mod day_four;
+mod day_nine;
 mod day_one;
 mod day_seven;
 mod day_six;
@@ -27,6 +28,7 @@ fn main() {
         run_day_five,
         run_day_six,
         run_day_seven,
+        run_day_nine,
     ];
 
     let matches = App::new(APP_NAME)
@@ -261,4 +263,27 @@ fn run_day_seven() {
         "Day seven part two answer is {}",
         day_seven::variable_gas(nums),
     );
+}
+
+fn run_day_nine() {
+    let day_nine_file = match File::open("data/day_nine.txt") {
+        Ok(f) => f,
+        Err(e) => panic!("failed to read day nine file: {}", e),
+    };
+
+    let reader = BufReader::new(day_nine_file);
+    let pts: Vec<Vec<usize>> = reader
+        .lines()
+        .map(|l| {
+            l.unwrap()
+                .chars()
+                .map(|c| c.to_digit(10).unwrap() as usize)
+                .collect::<Vec<usize>>()
+        })
+        .collect();
+    println!(
+        "Day nine part one answer is {}",
+        day_nine::sum_low_points(pts.clone()),
+    );
+    println!("Day nine part two answer is {}", day_nine::find_basins(pts));
 }
