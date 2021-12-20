@@ -18,6 +18,7 @@ mod day_seven;
 mod day_six;
 mod day_three;
 mod day_two;
+mod day_ten;
 
 fn main() {
     let available_days: Vec<fn()> = vec![
@@ -29,6 +30,7 @@ fn main() {
         run_day_six,
         run_day_seven,
         run_day_nine,
+        run_day_ten,
     ];
 
     let matches = App::new(APP_NAME)
@@ -286,4 +288,18 @@ fn run_day_nine() {
         day_nine::sum_low_points(pts.clone()),
     );
     println!("Day nine part two answer is {}", day_nine::find_basins(pts));
+}
+
+fn run_day_ten() {
+    let day_ten_file = match File::open("data/day_ten.txt") {
+        Ok(f) => f,
+        Err(e) => panic!("failed to read day ten file: {}", e),
+    };
+
+    let reader = BufReader::new(day_ten_file);
+    let mismatches: usize = reader.lines().map(|l| day_ten::check_balanced(&*l.unwrap())).sum();
+    println!(
+        "Day ten part one answer is {}",
+        mismatches,
+    );
 }
