@@ -57,14 +57,12 @@ pub fn find_basins(pts: Vec<Vec<usize>>) -> usize {
     //let mut basin_sizes: Vec<usize> = Vec::new();
     let low_pts = get_low_points(&pts);
 
-    let mut basin_sizes: Vec<usize> = low_pts.iter().map(|&low_pt| get_basin_size(&pts, low_pt)).collect(); 
-    basin_sizes.sort_unstable();
-    basin_sizes
+    let mut basin_sizes: Vec<usize> = low_pts
         .iter()
-        .rev()
-        .take(3)
-        .copied()
-        .product()
+        .map(|&low_pt| get_basin_size(&pts, low_pt))
+        .collect();
+    basin_sizes.sort_unstable();
+    basin_sizes.iter().rev().take(3).copied().product()
 }
 
 fn get_adjacent(x: usize, y: usize, pts: &Vec<Vec<usize>>) -> Vec<(usize, usize)> {

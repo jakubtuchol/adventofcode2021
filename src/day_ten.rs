@@ -25,19 +25,13 @@ pub fn check_balanced(s: &str) -> usize {
         }
     }
 
-
     0
 }
 
 pub fn find_completion(s: &str) -> usize {
     println!("LOOKING AT: {}", s);
     let mut stack: Vec<char> = Vec::new();
-    let close_matchings = HashMap::from([
-        (')', '('),
-        (']', '['),
-        ('}', '{'),
-        ('>', '<'),
-    ]);
+    let close_matchings = HashMap::from([(')', '('), (']', '['), ('}', '{'), ('>', '<')]);
     for c in s.chars() {
         if close_matchings.contains_key(&c) {
             let &open = close_matchings.get(&c).unwrap();
@@ -64,7 +58,6 @@ pub fn get_completion_score(s: &str) -> usize {
         (']', 2),
         ('}', 3),
         ('>', 4),
-
         ('(', 1),
         ('[', 2),
         ('{', 3),
@@ -78,14 +71,19 @@ pub fn get_completion_score(s: &str) -> usize {
 }
 
 pub fn get_middle_completion_score(incomplete: Vec<String>) -> usize {
-    let mut scores: Vec<usize> = incomplete.iter().map(|x| find_completion(&x.clone()[..])).collect();
+    let mut scores: Vec<usize> = incomplete
+        .iter()
+        .map(|x| find_completion(&x.clone()[..]))
+        .collect();
     scores.sort_unstable();
     scores[scores.len() / 2]
 }
 
 #[cfg(test)]
 mod test {
-    use super::{check_balanced, get_completion_score, find_completion, get_middle_completion_score};
+    use super::{
+        check_balanced, find_completion, get_completion_score, get_middle_completion_score,
+    };
 
     #[test]
     fn test_check_balanced() {

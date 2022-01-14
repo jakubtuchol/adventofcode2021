@@ -3,11 +3,15 @@ use std::collections::HashSet;
 pub fn get_unique_digits(input: Vec<String>) -> usize {
     let mut appearances = 0;
     // 1 -> 2 segments, 4 -> 4 segments, 7 -> 3 segments, 8 -> 7 segments
-    let unique_sizes: HashSet<usize> = vec![2,4,3,7].into_iter().collect();
+    let unique_sizes: HashSet<usize> = vec![2, 4, 3, 7].into_iter().collect();
 
     for s in input {
         let outputs = s.split("|").nth(1).unwrap();
-        appearances += outputs.trim().split_ascii_whitespace().filter(|&num| unique_sizes.contains(&num.len())).count();
+        appearances += outputs
+            .trim()
+            .split_ascii_whitespace()
+            .filter(|&num| unique_sizes.contains(&num.len()))
+            .count();
     }
     appearances
 }

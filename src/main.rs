@@ -10,16 +10,16 @@ use std::process::exit;
 const APP_NAME: &str = "Advent of Code 2021";
 const VERSION: &str = "0.1";
 
+mod day_eight;
 mod day_five;
 mod day_four;
 mod day_nine;
-mod day_eight;
 mod day_one;
 mod day_seven;
 mod day_six;
+mod day_ten;
 mod day_three;
 mod day_two;
-mod day_ten;
 
 fn main() {
     let available_days: Vec<fn()> = vec![
@@ -276,7 +276,10 @@ fn run_day_eight() {
     };
 
     let reader = BufReader::new(day_eight_file);
-    let lines: Vec<String> = reader.lines().map(|l| l.unwrap().trim().to_string()).collect();
+    let lines: Vec<String> = reader
+        .lines()
+        .map(|l| l.unwrap().trim().to_string())
+        .collect();
     println!(
         "Day eight part one answer is {}",
         day_eight::get_unique_digits(lines),
@@ -314,11 +317,11 @@ fn run_day_ten() {
 
     let reader = BufReader::new(day_ten_file);
     let lines: Vec<String> = reader.lines().map(|l| l.unwrap()).collect();
-    let mismatches: usize = lines.iter().map(|l| day_ten::check_balanced(&l.clone()[..])).sum();
-    println!(
-        "Day ten part one answer is {}",
-        mismatches,
-    );
+    let mismatches: usize = lines
+        .iter()
+        .map(|l| day_ten::check_balanced(&l.clone()[..]))
+        .sum();
+    println!("Day ten part one answer is {}", mismatches,);
     println!(
         "Day ten part two answer is {}",
         day_ten::get_middle_completion_score(lines.clone()),
