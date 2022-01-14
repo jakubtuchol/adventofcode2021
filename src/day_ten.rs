@@ -24,11 +24,13 @@ pub fn check_balanced(s: &str) -> usize {
             stack.push(c);
         }
     }
+
+
     0
 }
 
 pub fn find_completion(s: &str) -> usize {
-    let mut completion: Vec<char> = Vec::new();
+    println!("LOOKING AT: {}", s);
     let mut stack: Vec<char> = Vec::new();
     let close_matchings = HashMap::from([
         (')', '('),
@@ -36,39 +38,24 @@ pub fn find_completion(s: &str) -> usize {
         ('}', '{'),
         ('>', '<'),
     ]);
-    let open_matchings = HashMap::from([
-        ('(', ')'),
-        ('[', ']'),
-        ('{', '}'),
-        ('<', '>'),
-    ]);
-
     for c in s.chars() {
         if close_matchings.contains_key(&c) {
-            if stack.is_empty() {
-                return 0;
-            }
-            let open = close_matchings.get(&c).unwrap();
-            let mut last = stack.pop().unwrap();
-        }
-        /*
-        if matching_closes.contains_key(&c) {
-            let (matching, value) = matching_closes.get(&c).unwrap();
-            if stack.is_empty() {
-                return *value;
-            } else {
-                let last_match = stack.pop().unwrap();
-                if last_match != *matching {
-                    return *value;
+            let &open = close_matchings.get(&c).unwrap();
+            println!("GOT STACK: {:?}, OPEN: {}", stack, c);
+            loop {
+                //let last = stack.pop().unwrap();
+                if *stack.last().unwrap() == open {
+                    stack.pop();
+                } else {
+                    break;
                 }
             }
         } else {
             stack.push(c);
         }
- */
     }
-    0
-
+    let incomplete: String = stack.iter().rev().collect();
+    get_completion_score(&incomplete[..])
 }
 
 pub fn get_completion_score(s: &str) -> usize {
@@ -77,6 +64,11 @@ pub fn get_completion_score(s: &str) -> usize {
         (']', 2),
         ('}', 3),
         ('>', 4),
+
+        ('(', 1),
+        ('[', 2),
+        ('{', 3),
+        ('<', 4),
     ]);
 
     s.chars().fold(0, |acc, x| {
@@ -85,9 +77,15 @@ pub fn get_completion_score(s: &str) -> usize {
     })
 }
 
+pub fn get_middle_completion_score(incomplete: Vec<String>) -> usize {
+    let mut scores: Vec<usize> = incomplete.iter().map(|x| find_completion(&x.clone()[..])).collect();
+    scores.sort_unstable();
+    scores[scores.len() / 2]
+}
+
 #[cfg(test)]
 mod test {
-    use super::{check_balanced, get_completion_score};
+    use super::{check_balanced, get_completion_score, find_completion, get_middle_completion_score};
 
     #[test]
     fn test_check_balanced() {
@@ -106,5 +104,27 @@ mod test {
         assert_eq!(5566, get_completion_score(")}>]})"));
         assert_eq!(1480781, get_completion_score("}}>}>))))"));
         assert_eq!(995444, get_completion_score("]]}}]}]}>"));
+    }
+
+    #[test]
+    fn test_find_completion() {
+        assert_eq!(288957, find_completion("[({(<(())[]>[[{[]{<()<>>"));
+        assert_eq!(5566, find_completion("[(()[<>])]({[<{<<[]>>("));
+        assert_eq!(1480781, find_completion("(((({<>}<{<{<>}{[]{[]{}"));
+        assert_eq!(995444, find_completion("{<[[]]>}<{[{[{[]{()[[[]"));
+        assert_eq!(294, find_completion("<{([{{}}[<[[[<>{}]]]>[]]"));
+    }
+
+    #[test]
+    fn test_get_middle_completion_score() {
+        let v: Vec<String> = vec![
+            "[({(<(())[]>[[{[]{<()<>>".to_string(),
+            "[(()[<>])]({[<{<<[]>>(".to_string(),
+            "(((({<>}<{<{<>}{[]{[]{}".to_string(),
+            "{<[[]]>}<{[{[{[]{()[[[]".to_string(),
+            "<{([{{}}[<[[[<>{}]]]>[]]".to_string(),
+        ];
+
+        assert_eq!(288957, get_middle_completion_score(v));
     }
 }

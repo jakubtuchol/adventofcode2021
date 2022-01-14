@@ -13,6 +13,7 @@ const VERSION: &str = "0.1";
 mod day_five;
 mod day_four;
 mod day_nine;
+mod day_eight;
 mod day_one;
 mod day_seven;
 mod day_six;
@@ -29,6 +30,7 @@ fn main() {
         run_day_five,
         run_day_six,
         run_day_seven,
+        run_day_eight,
         run_day_nine,
         run_day_ten,
     ];
@@ -267,6 +269,20 @@ fn run_day_seven() {
     );
 }
 
+fn run_day_eight() {
+    let day_eight_file = match File::open("data/day_eight.txt") {
+        Ok(f) => f,
+        Err(e) => panic!("failed to read day eight file: {}", e),
+    };
+
+    let reader = BufReader::new(day_eight_file);
+    let lines: Vec<String> = reader.lines().map(|l| l.unwrap().trim().to_string()).collect();
+    println!(
+        "Day eight part one answer is {}",
+        day_eight::get_unique_digits(lines),
+    );
+}
+
 fn run_day_nine() {
     let day_nine_file = match File::open("data/day_nine.txt") {
         Ok(f) => f,
@@ -297,9 +313,14 @@ fn run_day_ten() {
     };
 
     let reader = BufReader::new(day_ten_file);
-    let mismatches: usize = reader.lines().map(|l| day_ten::check_balanced(&*l.unwrap())).sum();
+    let lines: Vec<String> = reader.lines().map(|l| l.unwrap()).collect();
+    let mismatches: usize = lines.iter().map(|l| day_ten::check_balanced(&l.clone()[..])).sum();
     println!(
         "Day ten part one answer is {}",
         mismatches,
+    );
+    println!(
+        "Day ten part two answer is {}",
+        day_ten::get_middle_completion_score(lines.clone()),
     );
 }
